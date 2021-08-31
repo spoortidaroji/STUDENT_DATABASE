@@ -24,11 +24,58 @@ if(isset($_POST['deleteall'])){
 }
 
 function createData(){
+    $Flag1=0;
+    $Flag2=0;
+    $Flag3=0;
+    $Flag4=0; 
     $STUDENTNAME=textboxValue("STUDENTNAME");
+    if (!preg_match ("/^[a-zA-z' ]*$/", $STUDENTNAME) ) 
+    { 
+	//TextNode("error","Provide only alphabets in the Textbox"); 
+    	$ErrMsg = "Only alphabets and whitespace are allowed in STUDENTNAME.";  
+            $Flag1=1;
+            echo $ErrMsg;  
+    } 
+    else {
+	    $Flag1=0;
+    }
     $USN=textboxValue("USN");
+    if (!preg_match ("/^([0-9]){1}([a-zA-Z]){2}([0-9]){2}([a-zA-Z]){2}([0-9]){3}?$/", $USN)) 
+    {
+  	//TextNode("error","Provide only alphabets and digits in the Textbox");
+    	$ErrMsg = "Only alphabets and numeric are allowed in USN.";  
+        $Flag2=1;
+          echo $ErrMsg;  
+    } 
+    else 
+    {
+	    $Flag2=0;
+    }
     $DEPT=textboxValue("DEPT");
+    if (!preg_match ("/^[a-zA-z]*$/", $DEPT) ) 
+    {  
+	//TextNode("error","Provide only alphabets in the Textbox");
+    	$ErrMsg = "Only alphabets are allowed in DEPT.";  
+        $Flag3=1;
+             echo $ErrMsg;  
+    } 
+    else {
+	    $Flag3=0;
+    }
     $CITY=textboxValue("CITY");
-
+    if (!preg_match ("/^[a-zA-z]*$/", $CITY) ) 
+    {  
+	//TextNode("error","Provide only alphabets in the Textbox");
+	$ErrMsg = "Only alphabets are allowed in CITY.";  
+        $Flag4=1;
+            echo $ErrMsg;  
+    } 
+    else 
+    {
+	    $Flag4=0;
+    }
+    if($Flag1==0 && $Flag2==0 && $Flag3==0 && $Flag4==0)
+    {
     if($STUDENTNAME && $USN && $DEPT && $CITY)
     {
         $sql="INSERT INTO student(STUDENTNAME,USN,DEPT,CITY)
@@ -43,8 +90,8 @@ function createData(){
     }else{
         TextNode("error","Provide Data in the Textbox");
     }
+    }
 }
-
 
 function textboxValue($value){
     $textbox =mysqli_real_escape_string($GLOBALS['con'],trim($_POST[$value]));
